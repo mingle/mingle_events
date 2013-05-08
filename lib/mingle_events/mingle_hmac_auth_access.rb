@@ -3,7 +3,7 @@ module MingleEvents
   class MingleHmacAuthAccess
     attr_reader :base_url
 
-    def initialize(base_url, login, api_key, http=HTTP)
+    def initialize(base_url, login, api_key, http=Http)
       @base_url = base_url
       @login = login
       @api_key = api_key

@@ -4,7 +4,7 @@ module MingleEvents
   class MingleOauthAccess
     attr_reader :base_url
 
-    def initialize(base_url, token, http=HTTP)
+    def initialize(base_url, token, http=Http)
       @base_url = base_url
       @token = token
       @http = http
