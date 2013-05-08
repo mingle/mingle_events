@@ -8,8 +8,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mingle_
 
 MingleEvents.log.level = Logger::WARN
 
-class Test::Unit::TestCase 
-  
+class Test::Unit::TestCase
+
   EMPTY_EVENTS_XML = %{
     <?xml version="1.0" encoding="UTF-8"?>
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
@@ -20,15 +20,15 @@ class Test::Unit::TestCase
       <updated>2011-08-04T19:42:04Z</updated>
     </feed>
   }
-  
+
   # page 3
   LATEST_EVENTS_XML = %{
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-    
+
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="current"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="self"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=2" rel="next"/>
-      
+
       <entry>
         <id>https://mingle.example.com/projects/atlas/events/index/103</id>
         <title>entry 103</title>
@@ -48,31 +48,31 @@ class Test::Unit::TestCase
         <author><name>Mary</name></author>
       </entry>
     </feed>
-  }  
-   
+  }
+
   # page 2
   PAGE_2_EVENTS_XML = %{
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-    
+
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="current"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=2" rel="self"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="next"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=3" rel="previous"/>
-      
+
       <entry>
         <id>https://mingle.example.com/projects/atlas/events/index/99</id>
         <title>entry 99</title>
         <updated>2011-02-03T01:30:52Z</updated>
         <author><name>Harry</name></author>
       </entry>
-      
+
       <entry>
         <id>https://mingle.example.com/projects/atlas/events/index/98</id>
         <title>entry 98</title>
         <updated>2011-02-03T01:20:52Z</updated>
         <author><name>Harry</name></author>
       </entry>
-      
+
       <entry>
         <id>https://mingle.example.com/projects/atlas/events/index/97</id>
         <title>entry 97</title>
@@ -80,16 +80,16 @@ class Test::Unit::TestCase
         <author><name>Harry</name></author>
       </entry>
     </feed>
-  }    
-    
+  }
+
   # page 1
   PAGE_1_EVENTS_XML = %{
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-    
+
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="current"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="self"/>
       <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=2" rel="previous"/>
-      
+
       <entry>
         <id>https://mingle.example.com/projects/atlas/events/index/23</id>
         <title>entry 23</title>
@@ -97,8 +97,8 @@ class Test::Unit::TestCase
         <author><name>Bob</name></author>
       </entry>
     </feed>
-  }      
-  
+  }
+
   def stub_mingle_access
     stub = StubMingleAccess.new
     stub.register_page_content('https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml', LATEST_EVENTS_XML)
@@ -111,8 +111,8 @@ class Test::Unit::TestCase
     stub.register_page_content('/api/v2/projects/atlas/feeds/events.xml?page=3', LATEST_EVENTS_XML)
 
     stub
-  end 
-  
+  end
+
   def temp_dir
     path = File.expand_path(File.join(File.dirname(__FILE__), 'tmp',  ::SecureRandom.hex(16)))
     FileUtils.mkdir_p(path)
@@ -130,7 +130,7 @@ class Test::Unit::TestCase
       @not_found_pages = []
       @exploding_pages = []
     end
-    
+
     def base_url
       'http://example.com/mingle'
     end
@@ -142,7 +142,7 @@ class Test::Unit::TestCase
     def register_page_not_found(path)
       @not_found_pages << path
     end
-    
+
     def register_explosion(path)
       @exploding_pages << path
     end
@@ -155,7 +155,7 @@ class Test::Unit::TestCase
         end
         raise MingleEvents::HttpError.new(rsp, path)
       end
-      
+
       if @exploding_pages.include?(path)
         rsp = Net::HTTPNotFound.new(nil, '500', 'Server exploded!')
         def rsp.body
@@ -172,7 +172,7 @@ class Test::Unit::TestCase
 
   class StubProjectCustomProperties
 
-    def initialize(property_names_by_column_names) 
+    def initialize(property_names_by_column_names)
       @property_names_by_column_names = property_names_by_column_names
     end
 
@@ -182,4 +182,15 @@ class Test::Unit::TestCase
 
   end
 
+  class HttpStub
+    def get(url, &block)
+      @req = Net::HTTP::Get.new(URI.parse(url).request_uri)
+      yield(@req) if block_given?
+      "OK"
+    end
+
+    def last_request
+      @req
+    end
+  end
 end
