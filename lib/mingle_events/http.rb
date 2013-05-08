@@ -4,8 +4,7 @@ module MingleEvents
 
     MAX_RETRY_TIMES = 5
 
-    # get for a url, a block and be passed in for request processing
-    # before send it out
+    # get response body for a url, a block can be passed in for request pre-processing
     def get(url, retry_count=0, &block)
       rsp = fetch_page_response(url)
       case rsp
