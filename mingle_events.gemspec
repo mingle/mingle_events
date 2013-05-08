@@ -10,15 +10,16 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri')
   s.add_dependency('activesupport')
   s.add_dependency('minitar')
+  s.add_dependency('api-auth')
   s.description = %q{
     Mingle 3.3 introduced a new Events API in the form of an "Atom feed":http://www.thoughtworks-studios.com/mingle/3.3/help/mingle_api_events.html. The Mingle team and ThoughtWorks Studios are big believers in the use of Atom for exposing events. Atom is a widely used standard, and this event API style puts the issue of robust event delivery in the hands of the consumer, where it belongs. In fact, we'd argue this is the only feasible means of robust, scalable event delivery, short of spending hundreds of thousands or millions of dollars on enterprise buses and such. Atom-delivered events are cheap, scalable, standards-based, and robust.
 
-    However, we do accept that asking integrators wishing to consume events to implement polling is not ideal. Writing polling consumers can be tedious. And this tedium gets in the way of writing sweet Mingle integrations. We are addressing this by publishing libraries such as this, which if effective, fully hide the mechanics of event polling from the consumer. The consumer only need worry about the processing of events. Said processing is modeled in the style of 'pipes and filters.'    
+    However, we do accept that asking integrators wishing to consume events to implement polling is not ideal. Writing polling consumers can be tedious. And this tedium gets in the way of writing sweet Mingle integrations. We are addressing this by publishing libraries such as this, which if effective, fully hide the mechanics of event polling from the consumer. The consumer only need worry about the processing of events. Said processing is modeled in the style of 'pipes and filters.'
   }
   s.email = %q{david.rice at gmail dot com}
   s.extra_rdoc_files = ["LICENSE.txt", "README.textile"]
   s.files = Dir[
-    "Gemfile", 
+    "Gemfile",
     "lib/**/*.rb",
     "LICENSE.txt",
     "README.textile",
