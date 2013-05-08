@@ -6,7 +6,7 @@ module MingleEvents
 
     # get response body for a url, a block can be passed in for request pre-processing
     def get(url, retry_count=0, &block)
-      rsp = fetch_page_response(url)
+      rsp = fetch_page_response(url, &block)
       case rsp
       when Net::HTTPSuccess
         rsp.body
