@@ -47,6 +47,8 @@ module MingleEvents
       CARD = Category.new('card', MINGLE_SCHEME)
       # Category for any event that is the creation of a new card
       CARD_CREATION = Category.new('card-creation', MINGLE_SCHEME)
+      # Category for any event that is the copy of a card from one project to another
+      CARD_COPIED_FROM = Category.new('card-copied-from', MINGLE_SCHEME)
       # Category for any event that is the deletion of a card
       CARD_DELETION = Category.new('card-deletion', MINGLE_SCHEME)
       # Category for any event that includes the change of a card's property value
