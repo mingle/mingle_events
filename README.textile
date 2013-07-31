@@ -2,7 +2,7 @@ h1. Mingle Events
 
 h3. Build Status
 
-!https://snap-ci.com/8utfe_6tNgFNhsHe8hj8ptOpiQKrqsWOEAptUj7ez70/build_image!:https://snap-ci.com/projects/ThoughtWorksStudios/mingle_events
+!https://snap-ci.com/8utfe_6tNgFNhsHe8hj8ptOpiQKrqsWOEAptUj7ez70/build_image!:https://snap-ci.com/projects/ThoughtWorksStudios/mingle_events/build_history
 
 h3. Overview
 
