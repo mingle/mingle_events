@@ -20,6 +20,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'htt
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'mingle_basic_auth_access'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'mingle_oauth_access'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'mingle_hmac_auth_access'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'mingle_api_access'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'processors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'project_custom_properties'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'zip_directory'))
