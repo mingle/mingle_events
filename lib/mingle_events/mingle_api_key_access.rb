@@ -11,7 +11,9 @@ module MingleEvents
 
     def fetch_page(location)
       location  = @base_url + location if location[0..0] == '/'
-      Http.get(location, 'MINGLE_API_KEY' => @api_key)
+      Http.get(location) do |req|
+        req["MINGLE_API_KEY"] = @api_key
+      end
     end
   end
 end
