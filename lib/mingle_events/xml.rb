@@ -69,22 +69,30 @@ module MingleEvents
       end
     end
 
-    def to_hash(element, hash={})
-      hash_for_element = (hash[tag_name(element).to_sym] ||= {})
+    def to_hash(element)
+      { tag_name(element).to_sym  => to_hash_attributes(element) }
+    end
 
-      attributes(element).each do |name, value|
-        hash_for_element[name.to_sym] = value
+    def to_hash_attributes(element)
+      attrs = attributes(element).inject({}) do |memo, pair|
+        name, value = pair
+        memo[name.to_sym] = value
+        memo
       end
 
-      children(element).each do |child|
-        if children(child).any?
-          to_hash(child, hash_for_element)
-        else
-          hash_for_element[tag_name(child).to_sym] = inner_text(child)
+      return nil if attrs[:nil] == "true"
+
+      children = children(element)
+      if children.any?
+        children.inject(attrs) do |memo, child|
+          memo[ tag_name(child).to_sym ] = to_hash_attributes(child)
+          memo
         end
+      elsif !inner_text(element).blank?
+        inner_text(element)
+      else
+        attrs
       end
-
-      hash
     end
 
     def patching_namespaces(node)

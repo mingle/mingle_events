@@ -33,7 +33,6 @@ module MingleEvents
 
         def build(element)
           raw_hash_from_xml = element.to_hash
-
           raw_hash_from_xml[:change].merge({
             :category => @category,
             :type => @category
