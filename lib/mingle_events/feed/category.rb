@@ -59,8 +59,19 @@ module MingleEvents
       COMMENT_ADDITION = Category.new('comment-addition', MINGLE_SCHEME)
       # Category for any event that incldues the Mingle server's adding a comment to a card
       SYSTEM_COMMENT_ADDITION = Category.new('system-comment-addition', MINGLE_SCHEME)
-      # Category for enumerated renaming change.
+
+      # For correction events:
       MANAGED_PROPERTY_VALUE_CHANGE = Category.new("managed-property-value-change", MINGLE_SCHEME)
+      PROPERTY_RENAME = Category.new("property-rename", MINGLE_SCHEME)
+      TAG_RENAME = Category.new("tag-rename", MINGLE_SCHEME)
+      PROPERTY_DELETION = Category.new("property-deletion", MINGLE_SCHEME)
+      CARD_TYPE_RENAME = Category.new("card-type-rename", MINGLE_SCHEME)
+      CARD_TYPE_DELETION = Category.new("card-type-deletion", MINGLE_SCHEME)
+      CARD_TYPE_AND_PROPERTY_DISASSOCIATION = Category.new("card-type-and-property-disassociation", MINGLE_SCHEME)
+      CARD_KEYWORDS_CHANGE = Category.new("card-keywords-change", MINGLE_SCHEME)
+      NUMERIC_PRECISION_CHANGE = Category.new("numeric-precision-change", MINGLE_SCHEME)
+      REPOSITORY_SETTINGS_CHANGE = Category.new("repository-settings-change", MINGLE_SCHEME)
+
 
       # Category for any event sourced by a wiki page
       PAGE = Category.new('page', MINGLE_SCHEME)
