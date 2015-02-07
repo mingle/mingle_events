@@ -88,10 +88,10 @@ module MingleEvents
           memo[ tag_name(child).to_sym ] = to_hash_attributes(child)
           memo
         end
-      elsif !inner_text(element).blank?
-        inner_text(element)
-      else
+      elsif attrs.any?
         attrs
+      else
+        inner_text(element)
       end
     end
 

@@ -293,6 +293,33 @@ module MingleEvents
         assert_equal('Testing', change[:old_value])
         assert_equal("Verify", change[:new_value])
       end
+
+      def test_parse_value_with_special_characters
+        element_xml_text = %{
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/vnd.mingle+xml">
+      <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+        <change type="property-change">
+          <property_definition url="https://mingle.mingle-staging.thoughtworks.com/api/v2/projects/mingle1/property_definitions/10088.xml">
+            <name>Priority</name>
+            <position nil="true"></position>
+            <data_type>string</data_type>
+            <is_numeric type="boolean">false</is_numeric>
+          </property_definition>
+          <old_value nil="true"></old_value>
+          <new_value>&#160;</new_value>
+        </change>
+      </changes>
+    </content>
+  </entry>}
+        entry = Entry.from_snippet(element_xml_text)
+
+        change = entry.changes.first
+        assert_equal("\u00A0", change[:new_value])
+        assert_equal(nil, change[:old_value])
+      end
+
     end
+
   end
 end
