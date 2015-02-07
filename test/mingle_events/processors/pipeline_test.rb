@@ -2,19 +2,19 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 
 module MingleEvents
   module Processors
-    class PipelineTest < Test::Unit::TestCase  
-      
+    class PipelineTest < MiniTest::Test
+
       def test_chains_all_processors
         events = [stub_event(100), stub_event(101), stub_event(102)]
         pipeline = Pipeline.new([DeleteLastProcessor.new, ReversingProcessor.new])
         processed_events = pipeline.process_events(events)
         assert_equal([101, 100], processed_events.map(&:entry_id))
       end
-  
+
       def stub_event(id)
         OpenStruct.new(:entry_id => id)
       end
-      
+
       class ReversingProcessor
         def process_events(events)
           events.reverse

@@ -1,7 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper'))
 
 module MingleEvents
-  class XmlTest < Test::Unit::TestCase
+  class XmlTest < MiniTest::Test
     def test_get_inner_text
       assert_equal "s", Xml.parse("<a><b>s</b></a>").inner_text
       assert_equal "s", Xml.parse("<a><b>s</b></a>").inner_text("b")

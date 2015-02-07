@@ -1,6 +1,6 @@
 module MingleEvents
   class ZipDirectory
-    
+
     def initialize(name)
       FileUtils.mkdir_p(File.dirname(name))
       @root = name
@@ -10,7 +10,7 @@ module MingleEvents
 
     def write_file(path, &block)
       measure('write_file') do
-        exists = File.exists?(@root) && File.lstat(@root).size > 1024
+        exists = File.exist?(@root) && File.lstat(@root).size > 1024
         writeio = File.open(@root, exists ? 'r+b' : 'wb')
         # for a existing tar, seek to -1024 from end to skip 1024 '\0' in tar format
         writeio.seek(-1024, IO::SEEK_END) if exists
@@ -30,7 +30,7 @@ module MingleEvents
     end
 
     def exists?(path)
-      return unless File.exists?(@root)
+      return unless File.exist?(@root)
       entry_map.include?(path)
     end
 
@@ -66,16 +66,16 @@ module MingleEvents
 
     def entry_map
       return @entry_map if @entry_map
-      
+
       @entry_map = {}
       measure("entries archive loading") do
         @readio = File.open(@root, 'rb')
         loop do
           break if @readio.eof?
-        
+
           header = Archive::Tar::PosixHeader.new_from_stream(@readio)
           break if header.empty?
-          
+
           entry = ReusableEntryStream.new(header, @readio)
           size  = entry.size
           @entry_map[entry.name] = entry

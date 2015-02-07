@@ -1,5 +1,4 @@
-require 'test/unit'
-
+require 'minitest/autorun'
 require 'ostruct'
 require 'fileutils'
 
@@ -8,7 +7,13 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mingle_
 
 MingleEvents.log.level = Logger::WARN
 
-class Test::Unit::TestCase
+class MiniTest::Test
+
+
+  def assert_not_equal(exp, act, msg=nil)
+    msg = message(msg) { "<#{exp.inspect}> expected to be != to\n<#{act.inspect}>" }
+    assert(exp != act, msg)
+  end
 
   EMPTY_EVENTS_XML = %{
     <?xml version="1.0" encoding="UTF-8"?>

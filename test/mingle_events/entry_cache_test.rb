@@ -1,13 +1,13 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper'))
 
 module MingleEvents
-  class EntryCacheTest < Test::Unit::TestCase
-    
+  class EntryCacheTest < MiniTest::Test
+
     def setup
       @entry_cache = EntryCache.new("/tmp/foo")
       @entry_cache.clear
     end
-    
+
     def test_stores_first_entry_under_root
       fetched_entry = entry(1)
       @entry_cache.write(fetched_entry, nil)
@@ -49,11 +49,11 @@ module MingleEvents
       assert_equal entry(1), enumerator.next()
       assert_equal entry(2), enumerator.next()
       assert_equal entry(3), enumerator.next()
-      assert_raise(StopIteration) { enumerator.next() }
+      assert_raises(StopIteration) { enumerator.next() }
     end
-    
+
     private
-    
+
     def entry(id)
       element_xml_text = %{
         <entry xmlns="http://www.w3.org/2005/Atom">
@@ -69,7 +69,7 @@ module MingleEvents
       }
       Feed::Entry.from_snippet(element_xml_text)
     end
-    
-    
+
+
   end
 end

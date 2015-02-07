@@ -2,8 +2,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 
 module MingleEvents
   module Feed
-    
-    class LinksTest < Test::Unit::TestCase
+
+    class LinksTest < MiniTest::Test
       def test_parse_links
         element_xml = %{
           <entry xmlns="http://www.w3.org/2005/Atom">
@@ -20,7 +20,7 @@ module MingleEvents
         assert_equal "bug #103", the_links.first.title
         assert_equal "https://mingle.example.com/api/v2/projects/atlas/cards/104.xml?version=7", the_links.last.href
       end
-      
+
       def test_find_by_rel_and_type
         element_xml = %{
           <entry xmlns="http://www.w3.org/2005/Atom">
@@ -35,6 +35,6 @@ module MingleEvents
       end
 
     end
-    
+
   end
 end

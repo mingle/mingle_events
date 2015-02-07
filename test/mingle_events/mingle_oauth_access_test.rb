@@ -1,7 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_helper'))
 
 module MingleEvents
-  class MingleOauthAccessTest < Test::Unit::TestCase
+  class MingleOauthAccessTest < MiniTest::Test
     def setup
       @httpstub = HttpStub.new
       @access = MingleOauthAccess.new("http://foo.bar.com", "some-token", @httpstub)

@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'test_hel
 module MingleEvents
   module Feed
 
-    class ChangesTest < Test::Unit::TestCase
+    class ChangesTest < MiniTest::Test
 
       def test_parse_multiple_changes
         element_xml_text = %{
