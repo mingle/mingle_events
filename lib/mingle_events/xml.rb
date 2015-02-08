@@ -28,7 +28,7 @@ module MingleEvents
 
     def inner_text(element, xpath=nil)
       return inner_text(select(element, xpath)) if xpath
-      return nil if attr(element, "nil") && attr(element, "nil") == "true"
+      return nil if attr(element, "nil") == "true"
       element.node.inner_text
     end
 
@@ -84,15 +84,13 @@ module MingleEvents
 
       children = children(element)
       if children.any?
-        children.inject(attrs) do |memo, child|
+        return children.inject(attrs) do |memo, child|
           memo[ tag_name(child).to_sym ] = to_hash_attributes(child)
           memo
         end
-      elsif attrs.any?
-        attrs
-      else
-        inner_text(element)
       end
+      inner_text = inner_text(element)
+      inner_text && inner_text != "" ? inner_text : attrs
     end
 
     def patching_namespaces(node)

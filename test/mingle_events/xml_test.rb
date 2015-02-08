@@ -38,6 +38,11 @@ module MingleEvents
 
     def test_element_to_hash
       assert_equal({:a => {:x => "s", :b => { :y => "t", :e => "0"}, :c => "1", :d => nil}}, Xml.parse('<a x="s"> <b y="t"> <e>0</e> </b> <c>1</c> <d nil="true" /> </a>').select("a").to_hash)
+
+      assert_equal({:a => 's'}, Xml.parse('<a x="y">s</a>').select('a').to_hash)
+      assert_equal({:a => "\u00A0"}, Xml.parse('<a>&#160;</a>').select('a').to_hash)
+      assert_equal({:a => { :x => 'y'}}, Xml.parse('<a x="y"></a>').select('a').to_hash)
+
     end
 
     def test_select_with_namespace
