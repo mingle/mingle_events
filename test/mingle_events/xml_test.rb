@@ -42,6 +42,7 @@ module MingleEvents
       assert_equal({:a => 's'}, Xml.parse('<a x="y">s</a>').select('a').to_hash)
       assert_equal({:a => "\u00A0"}, Xml.parse('<a>&#160;</a>').select('a').to_hash)
       assert_equal({:a => { :x => 'y'}}, Xml.parse('<a x="y"></a>').select('a').to_hash)
+      assert_equal({:a => { :x => 'y'}}, Xml.parse("<a x=\"y\">\n </a>").select('a').to_hash)
 
     end
 

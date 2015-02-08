@@ -319,6 +319,37 @@ module MingleEvents
         assert_equal(nil, change[:old_value])
       end
 
+
+      def test_parse_card_creation_changes
+        element_xml_text = %{
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/vnd.mingle+xml">
+      <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+        <change type="card-creation"/>
+      </changes>
+    </content>
+  </entry>}
+        entry = Entry.from_snippet(element_xml_text)
+
+        change = entry.changes.first
+        assert_equal(Category::CARD_CREATION, change[:type])
+      end
+
+      def test_parse_card_description_changes
+        element_xml_text = %{
+  <entry xmlns="http://www.w3.org/2005/Atom">
+    <content type="application/vnd.mingle+xml">
+      <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+        <change type="description-change">
+        </change>
+      </changes>
+    </content>
+  </entry>}
+        entry = Entry.from_snippet(element_xml_text)
+
+        change = entry.changes.first
+        assert_equal(Category::DESCRIPTION_CHANGE, change[:type])
+      end
     end
 
   end

@@ -2,12 +2,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mingle_events}
-  s.version = "0.1.8"
+  s.version = "0.1.9"
   s.licenses = ['Apache-2.0']
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Rice"]
-  s.date = %q{2013-07-23}
+  s.date = %q{2015-02-08}
   s.add_dependency('nokogiri')
   s.add_dependency('activesupport')
   s.add_dependency('minitar')

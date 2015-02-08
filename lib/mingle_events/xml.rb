@@ -90,7 +90,7 @@ module MingleEvents
         end
       end
       inner_text = inner_text(element)
-      inner_text && inner_text != "" ? inner_text : attrs
+      inner_text && inner_text.strip != "" ? inner_text : attrs
     end
 
     def patching_namespaces(node)
