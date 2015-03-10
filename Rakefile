@@ -1,4 +1,5 @@
 require 'rake'
+require "bundler/gem_tasks"
 require 'rake/testtask'
 
 
@@ -8,12 +9,9 @@ desc "Run tests"
 Rake::TestTask.new do |task|
   task.pattern = 'test/**/*_test.rb'
   task.verbose = true
-  task.warning = true  
+  task.warning = true
 end
- 
+
 task :clean do
   FileUtils.rm_rf('test/tmp')
 end
-
-
-
