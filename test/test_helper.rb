@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'ostruct'
 require 'fileutils'
+require 'webmock/minitest'
 
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mingle_events'))
