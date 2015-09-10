@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mingle_events}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
   s.licenses = ['Apache-2.0']
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
