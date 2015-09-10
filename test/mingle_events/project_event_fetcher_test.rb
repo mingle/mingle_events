@@ -109,8 +109,8 @@ module MingleEvents
       state_dir = temp_dir
       mingle_access = stub_mingle_access
       fetcher = ProjectEventFetcher.new('atlas', mingle_access, state_dir)
-
       fetcher.set_current_state_to_now_if_no_current_state
+
       assert fetcher.fetch_latest.to_a.empty?
 
       mingle_access.register_page_content('/api/v2/projects/atlas/feeds/events.xml',%{
@@ -194,6 +194,65 @@ module MingleEvents
       })
       fetcher.set_current_state_to_now_if_no_current_state
       assert_equal([entry(104)], fetcher.fetch_latest.to_a)
+    end
+
+    def test_should_clear_old_cache_if_the_first_event_does_not_match
+      state_dir = temp_dir
+      mingle_access = StubMingleAccess.new
+      mingle_access.register_page_content('/api/v2/projects/atlas/feeds/events.xml', EMPTY_EVENTS_XML)
+      fetcher = ProjectEventFetcher.new('atlas', mingle_access, state_dir)
+      assert fetcher.first_entry_cached_match?
+
+      mingle_access.register_page_content('/api/v2/projects/atlas/feeds/events.xml?page=1',%{
+        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="current"/>
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="self"/>
+
+          <entry>
+            <id>https://mingle.example.com/projects/atlas/events/index/104</id>
+            <title>entry 104</title>
+            <updated>2011-02-03T08:14:42Z</updated>
+            <author><name>Bob</name></author>
+          </entry>
+        </feed>
+      })
+      mingle_access.register_page_content('/api/v2/projects/atlas/feeds/events.xml',%{
+        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="current"/>
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml" rel="self"/>
+
+          <entry>
+            <id>https://mingle.example.com/projects/atlas/events/index/104</id>
+            <title>entry 104</title>
+            <updated>2011-02-03T08:14:42Z</updated>
+            <author><name>Bob</name></author>
+          </entry>
+        </feed>
+      })
+
+      fetcher.fetch_latest
+      assert_equal([entry(104)], fetcher.all_fetched_entries.to_a)
+      assert fetcher.first_entry_cached_match?
+
+      mingle_access.register_page_content('/api/v2/projects/atlas/feeds/events.xml?page=1',%{
+        <feed xmlns="http://www.w3.org/2005/Atom" xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="current"/>
+          <link href="https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml?page=1" rel="self"/>
+
+          <entry>
+            <id>https://mingle.example.com/projects/atlas/events/index/105</id>
+            <title>entry 105</title>
+            <updated>2011-02-03T08:14:42Z</updated>
+            <author><name>Bob</name></author>
+          </entry>
+        </feed>
+      })
+      assert !fetcher.first_entry_cached_match?
+      fetcher.clear_cache_if_first_entry_mismatch!
+      assert_equal([], fetcher.all_fetched_entries.to_a)
     end
 
     private

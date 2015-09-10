@@ -53,6 +53,23 @@ module MingleEvents
       @entry_cache.update_current_state(next_entry, most_recent_new_entry)
       @entry_cache.entries(next_entry, most_recent_new_entry)
     end
+
+    def clear_cache_if_first_entry_mismatch!
+      unless first_entry_cached_match?
+        reset
+      end
+    end
+
+    def first_entry_cached_match?
+      if first_entry_cached = first_entry_fetched
+        page = page_with_first_entries
+        if first_entry = page.entries.last
+          first_entry_fetched.entry_id == first_entry.entry_id
+        end
+      else
+        true
+      end
+    end
     
     # returns all previously fetched entries; can be used to reprocess the events for, say,
     # various historical analyses
@@ -72,6 +89,10 @@ module MingleEvents
     
     def page_with_latest_entries
       Feed::Page.new("/api/v2/projects/#{@project_identifier}/feeds/events.xml", @mingle_access)
-    end        
+    end
+        
+    def page_with_first_entries
+      Feed::Page.new("/api/v2/projects/#{@project_identifier}/feeds/events.xml?page=1", @mingle_access)
+    end
   end
 end
