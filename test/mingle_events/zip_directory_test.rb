@@ -18,6 +18,12 @@ module MingleEvents
       assert_equal 's' * 1000, @dir.file('a', &:read)
     end
 
+    def test_file_not_exist_error
+      assert_raises MingleEvents::FileNotExist do
+        @dir.file('a')
+      end
+    end
+
     def test_read_write_files_with_sub_directory
       @dir.write_file('a/b/c') { |f| f.write( 's' * 1000) }
       @dir.reload

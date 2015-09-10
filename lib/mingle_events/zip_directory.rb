@@ -1,4 +1,6 @@
 module MingleEvents
+  class FileNotExist < StandardError; end
+
   class ZipDirectory
 
     def initialize(name)
@@ -24,7 +26,7 @@ module MingleEvents
 
     def file(path, &block)
       measure("read file") do
-        raise "File at '#{path}' in archive '#{@root}' dose not exisits" unless exists?(path)
+        raise FileNotExist, "File at '#{path}' in archive '#{@root}' dose not exisits" unless exists?(path)
         entry_map[path].open { |entry_stream| yield(entry_stream) }
       end
     end
